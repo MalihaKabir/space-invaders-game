@@ -25,12 +25,11 @@ body {
 }
 
 .shooter {
-	/* background-color: rgb(6, 76, 141); */
 	background-color: rgb(6, 175, 197);
 }
 
 .invader {
-	background-color: purple;
+	background-color: rgba(128, 0, 128, 0.767);
 	border-radius: 10px;
 }
 
