@@ -52,7 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			direction = widthOfGrid; // it'll move down the whole array to the next row
 		} else if (direction === widthOfGrid) {
 			// if already 15
-			(leftEdge) ? direction = 1 : direction = -1;
+
+
+				leftEdge ? (direction = 1) :
+				(direction = -1);
 		}
 
 		for (let i = 0; i < alienInvaders.length; i++) {
@@ -63,6 +66,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		for (let i = 0; i < alienInvaders.length; i++) {
 			squares[alienInvaders[i]].classList.add('invader');
+		}
+
+		// decide a game over
+		if (squares[currentShooterIndex].classList.contains('invader', 'shooter')) {
+			resultDisplay.textContent = 'Game Over!'
+			squares[alienInvaders[i]].classList.add('boom');
+			// clearInterval(invaderId);
 		}
 	}
 });
