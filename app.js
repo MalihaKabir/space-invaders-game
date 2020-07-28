@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	invaderId = setInterval(moveInvaders, 300); // 500 ml sec
+	invaderId = setInterval(moveInvaders, 300); // 300 ml sec
 
 	document.addEventListener('keydown', moveShooter);
 	document.addEventListener('keyup', shoot);
