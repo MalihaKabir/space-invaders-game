@@ -2,14 +2,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	const squares = document.querySelectorAll('.grid div');
 	const resultDisplay = document.querySelector('#result');
 	let widthOfGrid = 15;
-	let currentShooterIndex = 217; // shooter starts at index of 217 in squares array, middle of bottom row
+	let currentShooterIndex = 217; // shooter starts at index of 217 in squares array, middle of the bottom row
 	let currentInvaderIndex = 0; // invader starts at index 0
 	let alienInvadersTakenDown = [];
 	let result = 0;
 	let direction = 1;
 	let invaderId = null;
 
-	// define alien invaders, how I want it to be appeared in squares array
+	// define alien invaders, how I want it to be appeared in squares grid
 	const alienInvaders = [
 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
 		15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		// add shooter className to the new location of squares array
 		squares[currentShooterIndex].classList.add('shooter');
 	}
-	document.addEventListener('keydown', moveShooter);
 
 	// move the alien invaders
 	function moveInvaders () {
@@ -48,41 +47,36 @@ document.addEventListener('DOMContentLoaded', () => {
 			direction = widthOfGrid; // it'll move down the whole array to the next row
 		} else if (direction === widthOfGrid) {
 			// if already 15
-			leftEdge ? (direction = 1) : (direction = -1);
+			(leftEdge) ? direction = 1 : direction = -1;
 		}
 
 		alienInvaders.map((invader) => squares[invader].classList.remove('invader'));
 
+		// set new location for all the aliens in alienInvaders array
 		for (let i = 0; i < alienInvaders.length; i++) {
-			alienInvaders[i] += direction; // new location for all the aliens in alienInvaders array
+			alienInvaders[i] += direction;
 		}
 
 		alienInvaders.map((invader, i) => {
+			// if the alienInvadersTakeDown array doesn't include the Space / alienInvaders, add "invader" class
 			if (!alienInvadersTakenDown.includes(i)) {
 				squares[invader].classList.add('invader');
 			}
 		});
 
-		// for (let i = 0; i < alienInvaders.length; i++) {
-		// 	// if the alienInvadersTakeDown array doesn't include the space / alienInvaders, add "invader" class
-		// 	if (!alienInvadersTakenDown.includes(i)) {
-		// 		squares[alienInvaders[i]].classList.add('invader');
-		// 	}
-		// 	// this means we'll not be readding once we be assure.
-		// }
-
-		// decide a game over
+		// decide a game over - case1:
+		// if in current shooter has classes of both 'invader' AND 'shooter', then the game is over
 		if (squares[currentShooterIndex].classList.contains('invader', 'shooter')) {
-			// if in current shooter has classes of both 'invader' AND 'shooter', then the game is over
 			resultDisplay.textContent = 'Game Over!';
 			squares[currentShooterIndex].classList.add('boom');
 			clearInterval(invaderId); // also clear the time interval for this
+			// invaderId is setting interval that is calling this moveInvaders() function and we've set it at the end
 		}
 
-		// Also make sure that if any of the aliens miss the shooter, but reach the end of the grid, the game is over too. Doing it by declaring if any alien reaches the last 15 squares of the Grid, the game is over.
+		// decide a game over - case2: Also make sure that if any of the aliens miss the shooter, but reach the end of the grid, the game is over too. Doing it by declaring if any alien reaches the last 15 squares of the Grid, the game is over.
 		for (let i = 0; i < alienInvaders.length; i++) {
 			if (alienInvaders[i] > squares.length - (widthOfGrid - 1)) {
-				// (squares.length - (widthOfGrid - 1)) = 1st grid of last row
+				// (squares.length - (widthOfGrid - 1)) = grids from last/bottom row
 				resultDisplay.textContent = 'Game Over!';
 				clearInterval(invaderId);
 			}
@@ -94,8 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
 			clearInterval(invaderId);
 		}
 	}
-
-	invaderId = setInterval(moveInvaders, 500); // 500 ml sec
 
 	// shoot alien function allows to shoot at the alien to win and get game points. Do so by passing through an event/e through this function
 	function shoot (event) {
@@ -122,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				resultDisplay.textContent = result;
 			}
 
-			// lastly, if the laser isn't in the very first 15 squares, clear this interval and remove "laser" class from grid. Laser will be disappeared from grid.
+			// lastly, if the laser isn't in the very first 15 squares, which means if it reaches the top wall, clear this interval and remove "laser" class from grid to make laser disappeared from grid.
 			if (currentLaserIndex < widthOfGrid) {
 				clearInterval(laserId);
 				setTimeout(() => squares[currentLaserIndex].classList.remove('laser'), 100);
@@ -137,13 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
+	invaderId = setInterval(moveInvaders, 500); // 500 ml sec
+
+	document.addEventListener('keydown', moveShooter);
 	document.addEventListener('keyup', shoot);
 });
-
-// const alienInvaders = [
-// 		0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
-// 		15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-// 		30, 31, 32, 33, 34, 35, 36, 37, 38, 39,
-// 	];
-
-// (leftEdge) ? direction = 1 : direction = -1;

@@ -35,6 +35,7 @@ body {
 
 .boom {
 	background-color: rgb(238, 30, 75);
+	border-radius: 10px;
 }
 
 .laser {
