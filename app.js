@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				squares[currentLaserIndex].classList.add('boom');
 
 				// we want the 'boom' to appeare for a very short time, so using timeOut for this
-				setTimeout(() => squares[currentLaserIndex].classList.remove('boom'), 250);
+				setTimeout(() => squares[currentLaserIndex].classList.remove('boom'), 200);
 				clearInterval(laserId);
 
 				const alienTakenDown = alienInvaders.indexOf(currentLaserIndex);
@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 	}
 
-	invaderId = setInterval(moveInvaders, 500); // 500 ml sec
+	invaderId = setInterval(moveInvaders, 300); // 500 ml sec
 
 	document.addEventListener('keydown', moveShooter);
 	document.addEventListener('keyup', shoot);
